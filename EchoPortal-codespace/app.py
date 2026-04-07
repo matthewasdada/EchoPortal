@@ -8,14 +8,14 @@ app.secret_key = "secretkey"
 def home():
     return render_template("index.html")
 
-@app.route("/login", method=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
 
         if username == "admin" and password == "1234":
-            return redirect(url_for(home))
+            return redirect(url_for("home"))
         else:
             return "Invalid login"
         
