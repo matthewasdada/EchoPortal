@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, render_template, request, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, session
 
 app = Flask(__name__)
 app.secret_key = "secretkey"
@@ -8,18 +8,31 @@ app.secret_key = "secretkey"
 def home():
     return render_template("index.html")
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
+        username = request.form("username")
+        password = request.form("password")
 
         if username == "admin" and password == "1234":
-            return redirect(url_for("home"))
+            session["user"] = username
+            return redirect(url_for("dashboard"))
         else:
             return "Invalid login"
         
     return render_template("login.html")
+
+@app.route("/dashboard")
+def dashboard():
+    if "user" in session:
+        return render_template("dashboard.html", user=session["user"])
+    else:
+        return redirect(url_for("login"))
+
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("login"))
 
 if __name__ == "__main__":
     app.run(debug=True)
