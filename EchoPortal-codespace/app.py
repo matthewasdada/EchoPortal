@@ -8,11 +8,11 @@ app.secret_key = "secretkey"
 def home():
     return render_template("index.html")
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        username = request.form("username")
-        password = request.form("password")
+        username = request.form["username"]
+        password = request.form["password"]
 
         if username == "admin" and password == "1234":
             session["user"] = username
