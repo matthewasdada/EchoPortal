@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, render_template, redirect, url_for, session
 
 app = Flask(__name__)
-app.secret_key = "secretkey"
+app.secret_key = "secretkey_echoportal_mrbrooks"
 
 @app.route("/")
 def home():
@@ -17,8 +17,8 @@ def login():
         if username == "admin" and password == "1234":
             session["user"] = username
             return redirect(url_for("dashboard"))
-        else:
-            return "Invalid login"
+        else:  
+            return render_template("login.html", error="Invalid username or password")
         
     return render_template("login.html")
 
@@ -28,6 +28,7 @@ def dashboard():
         return render_template("dashboard.html", user=session["user"])
     else:
         return redirect(url_for("login"))
+
 
 @app.route("/logout")
 def logout():

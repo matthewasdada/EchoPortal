@@ -9,9 +9,8 @@ h1， h2 {
 }
 
 button {
-    padding: 10px 20px;
+    padding: 10px;
     background-color: #dfe82e;
-    color: white;
-    border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
