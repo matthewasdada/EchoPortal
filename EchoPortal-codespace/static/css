@@ -4,13 +4,21 @@ body {
     background-color: #595858; /* yellow colour */
 
 }
-h1， h2 {
-    color: #333;
+
+form {
+    background: grey;
+    padding: 20px;
+    margin: 50px auto;
+    width: 300px;
+    border-radius: 10px;
+}
 }
 
 button {
     padding: 10px;
     background-color: #dfe82e;
+    color: black;
+    border: none;
     border-radius: 5px;
-    cursor: pointer;
+    width: 100%;
 }
