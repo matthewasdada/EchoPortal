@@ -29,6 +29,13 @@ def dashboard():
     else:
         return redirect(url_for("login"))
 
+@app.route("/gallery")
+def gallery():
+    if "user" in session:
+        return render_template("gallery.html")
+    else:
+        return redirect(url_for("login"))
+
 
 @app.route("/logout")
 def logout():

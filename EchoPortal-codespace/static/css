@@ -26,3 +26,20 @@ img {
     margin: 10px;
     border-radius: 10px;
 }
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding: 20px;
+}
+
+.gallery img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.gallery img:hover {
+    transform: scale(1.05);
+    transition: 0.3s;
+}
