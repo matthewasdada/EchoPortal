@@ -5,6 +5,10 @@ body {
 
 }
 
+h1,h2,h3 {
+    color: white;
+}
+
 form {
     background: grey;
     padding: 20px;
@@ -20,6 +24,11 @@ button {
     border: none;
     border-radius: 5px;
     width: 100%;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
 }
 
 img {
