@@ -7,6 +7,8 @@ app.secret_key = "secretkey_echoportal_mrbrooks"
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 
 @app.route("/")
 def home():
@@ -36,22 +38,24 @@ def dashboard():
 @app.route("/gallery")
 def gallery():
     if "user" in session:
+        images = os.listdir(app.config["UPLOAD_FOLDER"])
         return render_template("gallery.html")
     else:
         return redirect(url_for("login"))
     
-@app.route("upload", methods=["POST"])
+@app.route("/upload", methods=["GET", "POST"])
 def upload():
     if "user" not in session:
         return redirect(url_for("login"))
-    
-    file = request.files["image"]
 
-    if file:
-        filepath = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
+    if request.method == "POST":
+        file = request.files["file"]
+
+        if file:
+            filepath = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
         file.save(filepath)
 
-    return redirect(url_for("dashboard"))
+    return render_template("upload.html")
 
 
 

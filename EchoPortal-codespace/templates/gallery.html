@@ -8,10 +8,11 @@
 
     <h1>Gallery</h1>
 
-    <img src="https://via.placeholder.com/150">
-    <img src="https://via.placeholder.com/150">
-    <img src="https://via.placeholder.com/150">
-
+    <div class="gallery">
+        {% for iamge in images %}
+            <img src="{{ url_for('static', filename='upload/' + image)}}">
+        {% endfor %}
+    </div>
     <br><br>
 
     <a href="/dashboard">
