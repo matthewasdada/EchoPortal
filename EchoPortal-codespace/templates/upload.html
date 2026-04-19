@@ -5,6 +5,10 @@
     <button type="submit">Upload</button>
 </form>
 
+{% if message %}
+<p style="color: green;">{{ message }}</p>
+{% endif %}
+
 <a href="/dashboard">
     <button>Back</button>
 </a>

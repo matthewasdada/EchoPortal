@@ -39,7 +39,10 @@ def dashboard():
 def gallery():
     if "user" in session:
         images = os.listdir(app.config["UPLOAD_FOLDER"])
-        return render_template("gallery.html")
+
+        print("IMAGES:", images)
+
+        return render_template("gallery.html", images=images)
     else:
         return redirect(url_for("login"))
     
@@ -47,15 +50,23 @@ def gallery():
 def upload():
     if "user" not in session:
         return redirect(url_for("login"))
+    
+    message = None
 
     if request.method == "POST":
-        file = request.files["file"]
+        if "file" not in request.files:
+            message = "No file part"
+        else:
+            file = request.files["file"]
 
-        if file:
-            filepath = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
-        file.save(filepath)
+            if file.filename == "":
+                message = "No file was selected"
+            else:
+                filepath = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
+                file.save(filepath)
+                message = "Upload was successful!"
 
-    return render_template("upload.html")
+    return render_template("upload.html", message=message)
 
 
 

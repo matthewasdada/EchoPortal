@@ -9,8 +9,9 @@
     <h1>Gallery</h1>
 
     <div class="gallery">
-        {% for iamge in images %}
-            <img src="{{ url_for('static', filename='upload/' + image)}}">
+        {% for image in images %}
+        <p>{{ image }}</p>
+            <img src="{{ url_for('static', filename='uploads/' ~ image )}}"
         {% endfor %}
     </div>
     <br><br>
