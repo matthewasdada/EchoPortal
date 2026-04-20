@@ -3,16 +3,18 @@
 
 <h3>Photography Gallery</h3>
 
-<a href="/gallery">
+<a href="{{ url_for('gallery') }}">
     <button>View Full Gallery</button>
 </a>
 
 <br><br>
 
+{% if session["role"] == "admin" %}
 <a href="/upload">
     <button>Upload Photo</button>
 </a>
+{% endif %}
 
-<a href="/logout">
+<a href="{{ url_for('logout') }}">
     <button>Logout</button>
 </a>

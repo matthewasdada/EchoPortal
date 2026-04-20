@@ -7,6 +7,11 @@ app.secret_key = "secretkey_echoportal_mrbrooks"
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
@@ -22,6 +27,7 @@ def login():
 
         if username == "admin" and password == "1234":
             session["user"] = username
+            session["role"] = "admin"
             return redirect(url_for("dashboard"))
         else:  
             return render_template("login.html", error="Invalid username or password")
@@ -38,9 +44,9 @@ def dashboard():
 @app.route("/gallery")
 def gallery():
     if "user" in session:
-        images = os.listdir(app.config["UPLOAD_FOLDER"])
+        files = os.listdir(app.config["UPLOAD_FOLDER"])
 
-        print("IMAGES:", images)
+        images = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jepg'))]
 
         return render_template("gallery.html", images=images)
     else:
@@ -61,6 +67,10 @@ def upload():
 
             if file.filename == "":
                 message = "No file was selected"
+
+            elif not allowed_file(file.filename):
+                message = "Invalid file type (only the following: .jpg, .jpeg, .png)"
+                
             else:
                 filepath = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
                 file.save(filepath)
