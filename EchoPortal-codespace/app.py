@@ -46,7 +46,7 @@ def gallery():
     if "user" in session:
         files = os.listdir(app.config["UPLOAD_FOLDER"])
 
-        images = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jepg'))]
+        images = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
 
         return render_template("gallery.html", images=images)
     else:
