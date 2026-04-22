@@ -8,6 +8,7 @@ UPLOAD_FOLDER = os.path.join(app.root_path, "static", "uploads")
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
+
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -45,7 +46,7 @@ def gallery():
     if "user" in session:
         files = os.listdir(app.config["UPLOAD_FOLDER"])
 
-        images = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jpe g'))]
+        images = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
 
         return render_template("gallery.html", images=images)
     else:
