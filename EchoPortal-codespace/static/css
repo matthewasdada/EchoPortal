@@ -38,7 +38,7 @@ img {
 
 .gallery {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
     padding: 20px;
 }
@@ -47,6 +47,7 @@ img {
     background: #333;
     padding: 10px;
     border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,00.3);
 }
 
 .gallery img {

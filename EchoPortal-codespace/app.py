@@ -4,7 +4,7 @@ from flask import Flask, request, render_template, redirect, url_for, session
 app = Flask(__name__)
 app.secret_key = "secretkey_echoportal_mrbrooks"
 
-UPLOAD_FOLDER = "static/uploads"
+UPLOAD_FOLDER = os.path.join(app.root_path, "static", "uploads")
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
@@ -46,7 +46,7 @@ def gallery():
     if "user" in session:
         files = os.listdir(app.config["UPLOAD_FOLDER"])
 
-        images = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+        images = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jpe g'))]
 
         return render_template("gallery.html", images=images)
     else:
