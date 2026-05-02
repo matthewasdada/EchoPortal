@@ -78,6 +78,26 @@ def upload():
 
     return render_template("upload.html", message=message)
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/services")
+def services():
+    return render_template("services.html")
+
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
+
+@app.route("/testimonials")
+def testimonials():
+    return render_template("testimonails.html")
+
+@app.route("/contact")
+def contant():
+    return render_template("contact.html")
+
 
 
 @app.route("/logout")
