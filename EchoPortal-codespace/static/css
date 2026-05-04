@@ -61,3 +61,29 @@
         transform: scale(1.05);
         transition: 0.3s;
     }
+
+    .navbar {
+        background: #1f1f1f;
+        padding: 15px;
+        display: flex;
+        gap: 20px;
+    }
+
+    .navbar a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .content {
+        max-width: 900px;
+        margin: white;
+        padding: 20px;
+    }
+
+    .footer {
+        background: #1f1f1f;
+        padding: 20px;
+        text-align: center;
+        margin-top: 40px;
+    }
+

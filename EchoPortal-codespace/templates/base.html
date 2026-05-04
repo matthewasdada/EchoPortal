@@ -15,6 +15,20 @@
         <a href="/faq">FAQ</a>
         <a href="/testimonials">Testimonials</a>
         <a href="/contact">Contact</a>
+
+        {% if 'user' in session %}
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="login">Login</a>
     </nav>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer">
+        <p>2026 EchoPortal Photography Ministry</p>
+        <p>Contact: echoportal@example.com</p>
+    </footer>
 </body>
 </html>
