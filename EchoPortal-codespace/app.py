@@ -92,10 +92,10 @@ def faq():
 
 @app.route("/testimonials")
 def testimonials():
-    return render_template("testimonails.html")
+    return render_template("testimonials.html")
 
 @app.route("/contact")
-def contant():
+def contact():
     return render_template("contact.html")
 
 
