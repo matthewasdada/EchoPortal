@@ -11,21 +11,37 @@
 
 <body>
     <nav class="navbar">
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/services">Services</a>
-        <a href="/gallery">Gallery</a>
-        <a href="/faq">FAQ</a>
-        <a href="/testimonials">Testimonials</a>
-        <a href="/contact">Contact</a>
+        <div class="container">
 
-        {% if 'user' in session %}
-            <a href="/logout">Logout</a>
-        {% else %}
-            {% if request.path != '/login' %}
-            <a href="login">Login</a>
-            {% endif %}
-        {% endif %}
+            <a class="navbar-brand" href="/">EchoPortal</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="#avbarNav">
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About/a></li>
+                    <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/testimonials">Testimonials</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/faq">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+
+                    {% if 'user' in session %}
+                        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                    {% else %}
+                        {% if request.path != '/login' %}
+                            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                        {% endif %}
+                    {% endif %}
+
+                </ul>
+            </div>
+            
+        </div>
     </nav>
 
     <div class="content">
