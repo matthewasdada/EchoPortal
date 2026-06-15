@@ -22,7 +22,9 @@
         {% if 'user' in session %}
             <a href="/logout">Logout</a>
         {% else %}
+            {% if request.path != '/login' %}
             <a href="login">Login</a>
+            {% endif %}
         {% endif %}
     </nav>
 
