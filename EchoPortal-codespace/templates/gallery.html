@@ -7,6 +7,12 @@
     {% for image in images %}
         <div class="card">
             <img src="{{ url_for('static', filename='uploads/' ~ image) }}">
+            
+            {% if 'user' in session %}
+                <a href="{{ url_for('download', filename=image) }}" class="btn btn-primary mt-2">Download</a>
+            {% else %}
+                <a href="/login" class="btn btn-secondary mt-2">Login to Download</a>
+            {% endif %}
         </div>
     {% endfor %}
 </div>

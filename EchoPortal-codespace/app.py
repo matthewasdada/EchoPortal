@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory
 
 app = Flask(__name__)
 app.secret_key = "secretkey_echoportal_mrbrooks"
@@ -43,14 +43,16 @@ def dashboard():
 
 @app.route("/gallery")
 def gallery():
-    if "user" in session:
-        files = os.listdir(app.config["UPLOAD_FOLDER"])
+    files = os.listdir(app.config["UPLOAD_FOLDER"])
+    images = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+    return render_template("gallery.html", images=images)
 
-        images = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
-
-        return render_template("gallery.html", images=images)
-    else:
+@app.route("/download/<filename>")
+def download(filename):
+    if "user" not in session:
         return redirect(url_for("login"))
+    
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename, as_attachment=True)
     
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
@@ -58,6 +60,9 @@ def upload():
         return redirect(url_for("login"))
     
     message = None
+
+    if session.get("role") != "admin":
+        return "Access denied: Admins only", 403
 
     if request.method == "POST":
         if "file" not in request.files:
