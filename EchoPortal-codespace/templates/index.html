@@ -4,7 +4,12 @@
     <div class="text-center">
         <h1 class="mb-3">Welcome to EchoPortal</h1>
         <p class="mb-4">Secure Photography Delivery Platform</p>
-        <a href="/login" class="btn btn-primary btn-lg">Login</a>
+
+        {% if 'user' not in session %}
+            <a href="/login" class="btn btn-primary btn-lg">Login</a>
+        {% else %}
+            <a href="/gallery" class="btn btn-success btn-lg">Go to Gallery</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
