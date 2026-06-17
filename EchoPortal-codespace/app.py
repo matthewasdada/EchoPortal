@@ -1,6 +1,13 @@
 import os
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory
 
+users = {
+    "admin": {
+        "password": "1234",
+        "role": "admin"
+    }
+}
+
 app = Flask(__name__)
 app.secret_key = "secretkey_echoportal_mrbrooks"
 
@@ -14,7 +21,6 @@ def allowed_file(filename):
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -25,14 +31,32 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        if username == "admin" and password == "1234":
+        if username in users and users[username]["password"] == password:
             session["user"] = username
-            session["role"] = "admin"
+            session["role"] = users[username]["role"]
             return redirect(url_for("dashboard"))
         else:  
             return render_template("login.html", error="Invalid username or password")
         
     return render_template("login.html")
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if username in users:
+            return render_template("signup.html", error="Username already exists.")
+        
+        users[username] = {
+            "password": password,
+            "role": "user"
+        }
+
+        return redirect(url_for("login"))
+    
+    return render_template("signup.html")
 
 @app.route("/dashboard")
 def dashboard():
