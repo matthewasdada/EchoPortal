@@ -5,17 +5,32 @@
 
 <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
     <div class="card p-4 shadow" style="width: 350px;">
+
+
+        <div class="d-flex mb-4">
+            <a href="/login"
+                class="btn {% if request.path == '/login' %}btn-primary{% else %}btn-light{% endif %} flex-fill me-2">
+                Login
+            </a>
+
+            <a href="/signup"
+                class="btn {% if request.path == '/signup' %}btn-primary{% else %}btn-light{% endif %} flex-fill">
+                Signup
+            </a>
+
+        </div>
+
         <h2 class="text-center mb-3">Login</h2>
+
+        {% if error %}
+            <div class="alert alert-danger py-2 mb-3 text-center">
+                {{ error }}
+            </div>
+        {% endif %}
 
         <form method="POST">
             <input type="test" name="username" class="form-control mb-3" placeholder="Username" required>
             <input type="password" name="password" class="form-control mb-3" placeholder="Password" required><br><br>        
-            
-            {% if error %}
-                <div class="alert alert-danger py-2 mb-3 text-center">
-                    {{ error }}
-                </div>
-            {% endif %}  
             
             <button type="submit" class=""btn btn-primary w-100>Login</button>        
         </form>

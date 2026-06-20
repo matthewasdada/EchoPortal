@@ -5,8 +5,15 @@
     <div class="card p-4 shadow" style="width: 350px;">
 
         <div class="d-flex mb-4">
-            <a href="/login" class="btn btn-light flex-fill me-2">Login</a>
-            <a href="/signup" class="btn btn-primary flex-fill">Signup</a>
+            <a href="/login"
+                class="btn {% if request.path == '/login' %}btn-primary{% else %}btn-light{% endif %} flex-fill me-2">
+                Login
+            </a>
+
+            <a href="/signup"
+                class="btn {% if request.path == '/signup' %}btn-primary{% else %}btn-light{% endif %} flex-fill">
+                Signup
+            </a>
         </div>
 
         <h2 class="text-center mb-4">Sign up</h2>
