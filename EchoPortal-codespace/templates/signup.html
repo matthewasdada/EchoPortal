@@ -1,24 +1,41 @@
 {% extends "base.html" %}
-{% block contemt %}
-<div class="container mt-5" style="max-width: 500px;">
-    <h2 class="mb-4 text-center">Create an account</h2>
+{% block content %}
 
-    {% if error %}
-        <div class="alert alert-danger">{{ error }}</div>
-    {% endif %}
+<div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="card p-4 shadow" style="width: 350px;">
 
-    <form method="POST">
-        <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input name="username" class="form-control" required>
+        <div class="d-flex mb-4">
+            <a href="/login" class="btn btn-light flex-fill me-2">Login</a>
+            <a href="/signup" class="btn btn-primary flex-fill">Signup</a>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input name="password" type="password" class="form-control" required>
-        </div>
+        <h2 class="text-center mb-4">Sign up</h2>
 
-        <button class="btn btn-primary w-100">Sign Up</button>
-    </form>
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input name="username" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input name="password" type="password" class="form-control" required>
+            </div>
+
+            <button class="btn btn-primary w-100">Create Account</button>
+        </form>
+
+        <p class="mt-3 text-center">
+            Already have an account?
+            <a href="/login">Login here</a>
+        </p>
+
+    </div>
 </div>
+
 {% endblock %}

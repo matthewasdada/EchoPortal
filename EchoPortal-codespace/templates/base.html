@@ -34,10 +34,6 @@
                         <li class="nav-item"><a class="nav-link" href="/upload">Upload</a></li>
                     {% endif %}
 
-                    {% if 'user' not in session %}
-                        <li class="nav-tiem"><a class="nav-link" href="/signup">Sign Up</a></li>
-                    {% endif %}
-
                     {% if 'user' in session %}
                         <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
                     {% else %}
