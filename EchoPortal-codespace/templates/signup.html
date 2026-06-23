@@ -23,9 +23,20 @@
         {% endif %}
 
         <form method="POST">
-            <input type="text" name="username" class="form-control mb-3" placeholder="Username" required>
-            <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
+            <input type="text" name="username" class="form-control mb-3" 
+                placeholder="Username"
+                minlength="5"
+                maxlength="10"
+                pattern="[A-Za-z0-9]{10,}"
+                title="Must be 5-10 chracters long."
+                required>
 
+            <input type="password" name="password" class="form-control mb-3"
+                placeholder="Password"
+                minlength="10"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{10,}"
+                title="Must be least 10 characters, including: uppercase, lowercase, number & special character"
+                required>
             <button class="btn btn-primary w-100">Create Account</button>
         </form>
 
