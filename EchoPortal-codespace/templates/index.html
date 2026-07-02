@@ -6,7 +6,10 @@
         <p class="mb-4">Secure Photography Delivery Platform</p>
 
         {% if 'user' not in session %}
-            <a href="/login" class="btn btn-primary btn-lg">Login</a>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="/about" class="btn btn-primary btn-lg">About us</a>
+            <a href="/gallery" class="btn btn-outline-primary btn-lg">View Gallery</a>
+        </div>
         {% else %}
             <a href="/gallery" class="btn btn-success btn-lg">Go to Gallery</a>
         {% endif %}
