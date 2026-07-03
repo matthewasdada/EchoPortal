@@ -1,25 +1,65 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Services & Expectations</h1>
+<div class="container py-5">
 
-<p>Our ministry provides photography support for church events and gatherings</p>
+    <h1 class="text-center mb-4">Services & Expectations</h1>
+    <p class="text-center mb-5">Our ministry provides photography support for church events and gatherings!</p>
 
-<h2>Moment Captures</h2>
-<div class="service-grid">
-    <div class="service-card">Sunday Services</div>
-    <div class="service-card">Conferences</div>
-    <div class="service-card">Youth Nights</div>
-    <div class="service-card">Baptisms</div>
-    <div class="service-card">Community Events</div>
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="p-4 shadow rounded bg-light h-100 text-center">
+                <h4>Sunday Services</h4>
+                <p>add info</p>
+                <a href="/services/sunday" class="btn btn-warning">Learn More</a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-4 shadow rounded bg-light h-100 text-center">
+                <h4>Conferences</h4>
+                <p>add info</p>
+                <a href="/services/conferences" class="btn btn-warning">Learn More</a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-4 shadow rounded bg-light h-100 text-center">
+                <h4>Youth</h4>
+                <p>add info</p>
+                <a href="/services/youth" class="btn btn-warning">Learn More</a>
+            </div>
+        </div> 
+
+        <div class="col-md-4">
+            <div class="p-4 shadow rounded bg-light h-100 text-center">
+                <h4>Baptisms</h4>
+                <p>add info</p>
+                <a href="/services/baptisms" class="btn btn-warning">Learn More</a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-4 shadow rounded bg-light h-100 text-center">
+                <h4>Events & Gatherings</h4>
+                <p>add info</p>
+                <a href="/services/community" class="btn btn-warning">Learn More</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-5 p-5 shadow rounded bg-light">
+        <h2 class="mb-3">What to Expect</h2>
+        <ul class="mb-0">
+            <li>Free photography for church members</li>
+            <li>Edited photos are delivered securely/safely</li>
+            <li>Takes 4-7 days for delivery</li>
+            <li>Secure and respectful handling of sensitive/private images</li>
+        </ul>
+    </div>
+
 </div>
-
-<h2>What to expect</h2>
-<ul>
-    <li>Free photography for chruch members</li>
-    <li>Edited photos delivered securely</li>
-    <li>4-7 day delivery</li>
-    <li>Secure and Tolerant handling of sensitive images/photos</li>
-</ul>
 
 {% endblock %}
