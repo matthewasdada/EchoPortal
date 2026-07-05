@@ -127,7 +127,13 @@ def testimonials():
 def contact():
     return render_template("contact.html")
 
+@app.route("/services/sunday")
+def services_sunday():
+    return render_template("services_sunday.html")
 
+@app.route("/services/conferences")
+def services_conferences():
+    return render_template("services_conferences.html")
 
 @app.route("/logout")
 def logout():
