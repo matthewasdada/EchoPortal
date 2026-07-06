@@ -135,15 +135,18 @@ def services_sunday():
 def services_conferences():
     return render_template("services_conferences.html")
 
-@app.route("/logout")
-def logout():
-    session.pop("user", None)
-    return redirect(url_for("login"))
-
 @app.route("/services/youth")
 def services_youth():
     return render_template("services_youth.html")
 
+@app.route("/services/baptisms")
+def services_baptisms():
+    return render_template("services_baptisms.html")
+
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("login"))
 
 if __name__ == "__main__":
     app.run(debug=True)
