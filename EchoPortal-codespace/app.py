@@ -140,6 +140,9 @@ def logout():
     session.pop("user", None)
     return redirect(url_for("login"))
 
+@app.route("/services/youth")
+def services_youth():
+    return render_template("services_youth.html")
 
 
 if __name__ == "__main__":
