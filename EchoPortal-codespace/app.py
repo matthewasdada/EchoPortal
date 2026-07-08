@@ -143,6 +143,10 @@ def services_youth():
 def services_baptisms():
     return render_template("services_baptisms.html")
 
+@app.route("/services/community")
+def services_events():
+    return render_template("services_events.html")
+
 @app.route("/logout")
 def logout():
     session.pop("user", None)
