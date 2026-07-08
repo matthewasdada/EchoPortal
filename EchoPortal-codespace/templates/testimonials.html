@@ -1,21 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Testimonials</h1>
+<div class="container py-5">
 
-<div class="testimonials-card">
-    <p>"Youth Events"</p>
-    <span>- Bradley</span>
-</div>
+    <h1 class="mb-4">Testimonials</h1>
 
-<div class="testimonials-card">
-    <p>Baptisms</p>
-    <span>- Jarrell</span>
-</div>
+    <div class="row align-items-center mb-5">
+        <div class="col-md-4">
+            <img src="/static/images/testimonials_bradley.png" class="img-fluid rounded shadow" alt="Bradley">
+        </div>
+        <div class="col-md-8">
+            <h3>Bradley</h3>
+            <p class="lead">The photos from our youth night were incredible. The team captured every moment — the energy, the worship, the laughter — all of it. It honestly felt like reliving the night again when I saw the gallery</p>
+        </div>
+    </div>
 
-<div class="testimonials-card">
-    <p>"The ministry team delivered our conference photos very quickly!"</p>
-    <span>- Yousef</span>
+    <div class="row align-items-center mb-5 flex-md-row-reverse">
+        <div class="col-md-4">
+            <img src="/static/images/testimonials_jarrell.png" class="img-fluid rounded shadow" alt="Jarrel">
+        </div>
+        <div class="col-md-8">
+            <h3>Jarrell</h3>
+            <p class="lead">My baptism was one of the most important days of my life, and the photos reflected that perfectly. Every moment was captured respectfully and beautifully. I’m genuinely grateful for how meaningful the images turned out.</p>
+        </div>
+    </div>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-4">
+            <img src="/static/images/testimonial_yousef.png" class="img-fluid rounded shadow" alt="Yousef">
+        </div>
+        <div class="col-md-8">
+            <h3>Yousef</h3>
+            <p class="lead">Our conference had so many moving parts, but the photography team handled everything smoothly. The photos were delivered quickly and looked professional, clean, and consistent across all sessions. Couldn’t be happier.</p>
+        </div>
+    </div> 
+
 </div>
 
 {% endblock %}
