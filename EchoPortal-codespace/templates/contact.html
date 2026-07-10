@@ -1,13 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Contact Us</h1>
+<div class="container py-5">
+    <hi class="text-center mb-4 text-warning">Get in Touch</hi>
 
-<form method="POST">
-    <input type="text" name="name" placeholder="Your name" required><br><br>
-    <input type="email" name="email" placeholder="Your email" required><br><br>
-    <textarea name="message" placeholder="Your message" required></textarea><br><br>
-    <button type="submit">Send</button>
-</form>
+    <div class="row bg-dark text-light p-4 rounded shadow">
+
+        <div class="col-md-6 mb-4">
+            <h3 class="mb-3">Contact Us</h3>
+
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="John Doe" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email Address/label>
+                    <input type="email" name="email" class="form-control" placeholder="john@example.com" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Your Message</label>
+                    <textarea name="message" class="form-control" rows="5" placeholder="Tell us about your even or project..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-warning w-100">Send Message</button>
+            </form>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <h3 class="mb-3">Contact Information</h3>
+
+            <p><strong>Email:</strong> echoportal@example.com</p>
+            <p><strong>Phone:</strong> +1 123 456 789</p>
+            <p><strong>Address:</strong> EchoPortal Head Quarters</p>
+
+            <div class="mt-3 mb-4">
+                <i class="bi bi-facebook fs-3 me-3 text-warning"></i>
+                <i class="bi bi-instagram fs-3 me-3 text-warning"></i>
+                <i class="bi bi-twitter fs-3 text-warning"></i>
+            </div>
+
+            <h4 class="mb-3">Available Hours</h4>
+            <p>Monday - Friday: 9:00 AM - 4:00 PM</p>
+            <p>Saturday: 10:00 AM - 4:00 PM</p>
+            <p>Sunday: Closed.</p>
+        </div>
+        
+    </div>
+</div>
+
 
 {% endblock %}
