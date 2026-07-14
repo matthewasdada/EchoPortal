@@ -93,3 +93,27 @@
         line-height: 1.5;
     }
 
+    .home-bg {
+        background-image: url('/static/images/a-large-crowd-worshipping-hands-raised-in-praise-under-a-glowing-cross-photo.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    .home-bg::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 0;
+    }
+
+    .home-bg > * {
+        position: relative;
+        z-index: 1;
+    }
+
+
+
