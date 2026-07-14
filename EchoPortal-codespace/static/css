@@ -87,3 +87,9 @@
         color: #f0f0f0 !important;
     }
 
+    .info-text {
+        font-size: 0.9rem;
+        color: #d1d1d1;
+        line-height: 1.5;
+    }
+
