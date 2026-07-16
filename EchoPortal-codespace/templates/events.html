@@ -41,26 +41,54 @@
 
     </div>
 
-    <div class="row align-items-center mt-5">
 
-        <div class="col-md-6 mb-4 mb-md-0">
-            <img src="/static/images/events.jpg" class="img-fluid rounded shadow" alt="Events & Gatherings">
+    <div class="mt-5">
+        <h3 class="mb-4">Event & Gathering Moments</h3>
+
+        <div class="row align-items-center mb-5">
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename='images/images (00).jpg') }}"
+                    class="img-fluid rounded shadow" alt="Community Gathering">
+            </div>
+            <div class="col-md-6">
+                <h4>Community Gatherings</h4>
+                <p class="info-text">
+                    Capturing the heart of community life — conversations, shared meals, laughter, and meaningful
+                    interactions that bring people together. These moments reflect unity and connection.
+                </p>
+            </div>
         </div>
 
-        <div class="col-md-6">
-            <h2>Community Moments</h2>
-            <p class="lead">add info later</p>
+        <div class="row align-items-center mb-5 flex-md-row-reverse">
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename='images/images (111).jpg') }}"
+                    class="img-fluid rounded shadow" alt="Special Announcements">
+            </div>
+            <div class="col-md-6">
+                <h4>Special Announcements & Presentations</h4>
+                <p class="info-text">
+                    Highlighting important moments — presentations, recognitions, and announcements that celebrate
+                    achievements and milestones within the community.
+                </p>
+            </div>
+        </div>
 
-            <ul>
-                <li>Group photos and team highlights</li>
-                <li>Volunteer moments</li>
-                <li>Celebrations and special announcements</li>
-                <li>Candid interactions</li>
-                <li>Memorable community experiences</li>
-            </ul>
+        <div class="row align-items-center mb-5">
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename='images/lightstock_183410_medium_ann.jpg') }}"
+                    class="img-fluid rounded shadow" alt="Worship & Music">
+            </div>
+            <div class="col-md-6">
+                <h4>Worship & Music</h4>
+                <p class="info-text">
+                    Energetic worship moments, live music, and powerful atmosphere captured during gatherings and
+                    special events — showing the joy and passion of the community.
+                </p>
+            </div>
         </div>
 
     </div>
+
 
     <div class="mt-5">
         <a href="/services" class="btn btn-primary">Back to Services</a>
