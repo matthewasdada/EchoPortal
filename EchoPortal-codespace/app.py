@@ -129,23 +129,23 @@ def contact():
 
 @app.route("/services/sunday")
 def services_sunday():
-    return render_template("services_sunday.html")
+    return render_template("sunday.html")
 
 @app.route("/services/conferences")
 def services_conferences():
-    return render_template("services_conferences.html")
+    return render_template("conferences.html")
 
 @app.route("/services/youth")
 def services_youth():
-    return render_template("services_youth.html")
+    return render_template("youth.html")
 
 @app.route("/services/baptisms")
 def services_baptisms():
-    return render_template("services_baptisms.html")
+    return render_template("baptisms.html")
 
 @app.route("/services/community")
 def services_events():
-    return render_template("services_events.html")
+    return render_template("events.html")
 
 @app.route("/logout")
 def logout():

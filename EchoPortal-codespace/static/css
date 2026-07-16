@@ -1,7 +1,7 @@
     body {
         font-family: Arial;
         text-align: center;
-
+        background-color: red !important;
     }
 
     h1,h2,h3 {
@@ -63,7 +63,7 @@
 
     .content {
         max-width: 900px;
-        margin: white;
+        margin: 0 auto;
         padding: 20px;
     }
 
@@ -93,7 +93,7 @@
     }
 
     .home-bg {
-        background-image: url('/static/images/a-large-crowd-worshipping-hands-raised-in-praise-under-a-glowing-cross-photo.jpg');
+        background-image: url('/static/images/test.jpg');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
