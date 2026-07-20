@@ -1,20 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
+</div>
 
-<div class="home-bg d-flex justify-content-center align-items-center">
-    <div class="text-center text-light">
-        <h1 class="mb-3">Welcome to EchoPortal</h1>
-        <p class="mb-4">Secure Photography Delivery Platform</p>
+<div class="home-bg">
+    <div class="hero-text">
+
+        <h1>Welcome to EchoPortal</h1>
+        <p>Capturing Life’s Most Beautiful Moments Through the Lens</p>
 
         {% if 'user' not in session %}
-        <div class="d-flex justify-content-center gap-3">
-            <a href="/about" class="btn btn-primary btn-lg">About us</a>
-            <a href="/gallery" class="btn btn-outline-primary btn-lg">View Gallery</a>
+        <div class="hero-buttons">
+            <a href="/gallery" class="btn-cream">View Gallery</a>
+            <a href="/services" class="btn-cream">Book a Service</a>
         </div>
         {% else %}
-            <a href="/gallery" class="btn btn-success btn-lg">Go to Gallery</a>
+        <div class="hero-buttons">
+            <a href="/gallery" class="btn-cream">Go to Gallery</a>
+        </div>
         {% endif %}
+
     </div>
 </div>
+
+
+<div class="content">
 
 {% endblock %}
