@@ -1,6 +1,11 @@
 import os
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory
 
+from datetime import datetime, timedelta
+
+recent_login = []
+
+
 users = {
     "admin": {
         "password": "1234",
@@ -21,7 +26,7 @@ def allowed_file(filename):
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-@app.route("/")
+@app.route("/home")
 def home():
     return render_template("index.html")
 
@@ -34,6 +39,12 @@ def login():
         if username in users and users[username]["password"] == password:
             session["user"] = username
             session["role"] = users[username]["role"]
+
+            recent_login.append({
+                "username": username,
+                "time": datetime.now()
+            })
+
             return redirect(url_for("dashboard"))
         else:  
             return render_template("login.html", error="Invalid username or password")
@@ -64,12 +75,6 @@ def dashboard():
         return render_template("dashboard.html", user=session["user"])
     else:
         return redirect(url_for("login"))
-
-@app.route("/gallery")
-def gallery():
-    files = os.listdir(app.config["UPLOAD_FOLDER"])
-    images = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
-    return render_template("gallery.html", images=images)
 
 @app.route("/download/<filename>")
 def download(filename):
@@ -146,6 +151,47 @@ def services_baptisms():
 @app.route("/services/community")
 def services_events():
     return render_template("events.html")
+
+@app.route("/intro")
+def intro():
+    return render_template("intro.html")
+
+@app.route("/")
+def index():
+    return redirect("/intro")
+
+@app.route("/admin/recent-logins")
+def admin_recent_logins():
+    if "role" not in session or session["role"] != "admin":
+        return "Access denied", 403
+
+    cutoff = datetime.now() - timedelta(hours=1)
+    active_logins = [entry for entry in recent_login if entry["time"] > cutoff]
+
+    return render_template("admin_recent.html", logins=active_logins)
+
+@app.route("/gallery")
+def gallery():
+    return render_template("gallery.html")
+
+@app.route("/gallery/<event_name>")
+def gallery_event(event_name):
+    base_path = os.path.join("static", "images", "gallery", event_name)
+
+    if not os.path.exists(base_path):
+        return "Event not found", 404
+
+    images = [
+        f for f in os.listdir(base_path)
+        if f.lower().endswith((".jpg", ".jpeg", ".png"))
+    ]
+
+    return render_template("gallery_event.html",
+                           event_name=event_name,
+                           images=images)
+
+
+
 
 @app.route("/logout")
 def logout():

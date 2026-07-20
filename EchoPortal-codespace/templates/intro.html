@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content_wrapper %}
+    {% block content %}
+
+<script>
+    document.body.classList.add("intro-no-scroll");
+</script>
+
+<div class="intro-container" id="intro">
+    <div class="intro-content">
+        <h1 class="intro-title">EchoPortal</h1>
+        <p class="intro-tagline">Capturing Life’s Most Beautiful Moments</p>
+
+        <a href="/home" class="intro-enter-btn" id="enterBtn">Enter</a>
+    </div>
+</div>
+
+<script>
+    const intro = document.getElementById("intro");
+    const enterBtn = document.getElementById("enterBtn");
+
+    enterBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        document.body.classList.remove("intro-no-scroll");
+
+        intro.classList.add("slide-up");
+
+        setTimeout(() => {
+            window.location.href = "/home";
+        }, 800);
+    });
+</script>
+
+    {% endblock %}
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}

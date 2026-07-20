@@ -1,28 +1,29 @@
 {% extends "base.html" %}
-{% block content %}
-</div>
 
-<div class="home-bg">
-    <div class="hero-text">
+{% block content_wrapper %}
+    {% block content %}
+    <div class="home-fade">
 
-        <h1>Welcome to EchoPortal</h1>
-        <p>Capturing Life’s Most Beautiful Moments Through the Lens</p>
+        <div class="home-bg">
+            <div class="hero-text">
 
-        {% if 'user' not in session %}
-        <div class="hero-buttons">
-            <a href="/gallery" class="btn-cream">View Gallery</a>
-            <a href="/services" class="btn-cream">Book a Service</a>
+                <h1>Welcome to EchoPortal</h1>
+                <p>Capturing Life’s Most Beautiful Moments Through the Lens</p>
+
+                {% if 'user' not in session %}
+                <div class="hero-buttons">
+                    <a href="/gallery" class="btn-cream">View Gallery</a>
+                    <a href="/services" class="btn-cream">View Services</a>
+                </div>
+                {% else %}
+                <div class="hero-buttons">
+                    <a href="/gallery" class="btn-cream">Go to Gallery</a>
+                </div>
+                {% endif %}
+
+            </div>
         </div>
-        {% else %}
-        <div class="hero-buttons">
-            <a href="/gallery" class="btn-cream">Go to Gallery</a>
-        </div>
-        {% endif %}
 
     </div>
-</div>
-
-
-<div class="content">
-
+    {% endblock %}
 {% endblock %}

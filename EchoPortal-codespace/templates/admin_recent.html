@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2>Recent User Logins (Last 1 Hour)</h2>
+
+    {% if logins %}
+        <ul class="list-group mt-3">
+            {% for entry in logins %}
+                <li class="list-group-item">
+                    <strong>{{ entry.username }}</strong>
+                    <span class="text-muted">— {{ entry.time.strftime("%H:%M:%S") }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="mt-3 text-muted">No recent logins.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

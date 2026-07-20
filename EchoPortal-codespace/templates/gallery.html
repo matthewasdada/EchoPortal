@@ -1,20 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Gallery</h1>
+<div class="container py-5">
 
-<div class="gallery">
-    {% for image in images %}
-        <div class="card">
-            <img src="{{ url_for('static', filename='uploads/' ~ image) }}">
-            
-            {% if 'user' in session %}
-                <a href="{{ url_for('download', filename=image) }}" class="btn btn-primary mt-2">Download</a>
-            {% else %}
-                <a href="/login" class="btn btn-secondary mt-2">Login to Download</a>
-            {% endif %}
+    {% if 'user' not in session %}
+        <div class="text-center my-5">
+            <h3>Please login to download photos</h3>
+            <a href="/login" class="btn btn-theme mt-3">Login</a>
         </div>
-    {% endfor %}
+    {% endif %}
+
+    <h1 class="mb-4 text-center">Event Gallery</h1>
+
+    <div class="row g-4 gallery-grid">
+
+        <div class="col-md-4">
+            <div class="gallery-card" onclick="openEvent('mothersday')">
+                <h3>Mothers Day</h3>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="gallery-card" onclick="openEvent('fathersday')">
+                <h3>Fathers Day</h3>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="gallery-card" onclick="openEvent('end-of-year')">
+                <h3>End of Year</h3>
+            </div>
+        </div>
+
+    </div>
+
 </div>
+
+<script>
+function openEvent(eventName) {
+    const card = document.querySelector(`[onclick="openEvent('${eventName}')"]`);
+    card.classList.add("expand-card");
+
+    setTimeout(() => {
+        window.location.href = `/gallery/${eventName}`;
+    }, 600);
+}
+</script>
 
 {% endblock %}
