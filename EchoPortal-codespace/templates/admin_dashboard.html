@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <h1 class="mb-2">Admin Dashboard</h1>
+        <p class="info-text">Welcome back, {{ session['user'] }}. Here’s your quick overview.</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-4">
+            <div class="admin-card p-4 rounded text-center">
+                <h3 class="mb-2">Total Uploads</h3>
+                <p class="display-6">{{ total_uploads }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="admin-card p-4 rounded text-center">
+                <h3 class="mb-2">Recent Logins</h3>
+                <p class="display-6">{{ recent_login_count }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="admin-card p-4 rounded text-center">
+                <h3 class="mb-2">Gallery Events</h3>
+                <p class="display-6">3</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <a href="/gallery" class="admin-action-card p-4 rounded d-block text-center">
+                <h4>Manage Gallery</h4>
+                <p class="info-text">View and manage event galleries.</p>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/upload" class="admin-action-card p-4 rounded d-block text-center">
+                <h4>Upload Photos</h4>
+                <p class="info-text">Add new images to the system.</p>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/admin/users" class="admin-action-card p-4 rounded d-block text-center">
+                <h4>Manage Users</h4>
+                <p class="info-text">View all users and update roles.</p>
+            </a>
+        </div>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-5">
+    <h1 class="mb-4">User Management</h1>
+
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Last Login</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+
+        <tbody>
+            {% for username, info in users.items() %}
+            <tr>
+                <td>{{ username }}</td>
+
+                <td>{{ info.role }}</td>
+
+                <td>
+                    {% if active_users.get(username) %}
+                        <span class="badge bg-success">Active Now</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Offline</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if last_login.get(username) %}
+                        {{ last_login[username].strftime("%Y-%m-%d %H:%M:%S") }}
+                    {% else %}
+                        Never
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if info.role == "user" %}
+                        <a href="/admin/promote/{{ username }}" class="btn btn-success btn-sm">Promote</a>
+                    {% else %}
+                        <a href="/admin/demote/{{ username }}" class="btn btn-warning btn-sm">Demote</a>
+                    {% endif %}
+                </td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-4">
+        <a href="/admin" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+
+
+{% endblock %}

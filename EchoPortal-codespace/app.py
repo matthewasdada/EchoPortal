@@ -2,6 +2,8 @@ import os
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory
 
 from datetime import datetime, timedelta
+from flask import g
+
 
 recent_login = []
 
@@ -42,10 +44,12 @@ def login():
 
             recent_login.append({
                 "username": username,
-                "time": datetime.now()
+                "time": datetime.now(),
+                "active": True
             })
 
-            return redirect(url_for("dashboard"))
+
+            return redirect(url_for("admin_dashboard"))
         else:  
             return render_template("login.html", error="Invalid username or password")
         
@@ -68,6 +72,60 @@ def signup():
         return redirect(url_for("login"))
     
     return render_template("signup.html")
+
+@app.route("/admin/users")
+def admin_users():
+    if session.get("role") != "admin":
+        return "Access denied", 403
+
+    active_users = {}
+    last_login = {}
+
+    for entry in recent_login:
+        username = entry["username"]
+        last_login[username] = entry["time"]
+        active_users[username] = (datetime.now() - entry["time"] < timedelta(minutes=5))
+
+    return render_template(
+        "user_management.html",
+        users=users,
+        active_users=active_users,
+        last_login=last_login
+    )
+
+
+@app.route("/admin/promote/<username>")
+def promote_user(username):
+    if session.get("role") != "admin":
+        return "Access denied", 403
+
+    if username in users:
+        users[username]["role"] = "admin"
+
+    return redirect("/admin/users")
+
+
+@app.route("/admin/demote/<username>")
+def demote_user(username):
+    if session.get("role") != "admin":
+        return "Access denied", 403
+
+    if username in users:
+        users[username]["role"] = "user"
+
+    return redirect("/admin/users")
+
+@app.before_request
+def update_activity():
+    if "user" in session:
+        # Update last activity time for the logged-in user
+        for entry in recent_login:
+            if entry["username"] == session["user"]:
+                entry["time"] = datetime.now()
+                entry["active"] = True
+
+
+
 
 @app.route("/dashboard")
 def dashboard():
@@ -111,6 +169,31 @@ def upload():
                 message = "Upload was successful!"
 
     return render_template("upload.html", message=message)
+
+def get_recent_logins():
+    cutoff = datetime.now() - timedelta(hours=1)
+    return [entry for entry in recent_login if entry["time"] > cutoff]
+
+
+@app.route("/admin")
+def admin_dashboard():
+    if "user" not in session:
+        return redirect("/login")
+
+    upload_path = os.path.join("static", "uploads")
+    total_uploads = len(os.listdir(upload_path)) if os.path.exists(upload_path) else 0
+
+    try:
+        recent_login_count = len(get_recent_logins()) 
+    except:
+        recent_login_count = 0
+
+    return render_template(
+        "admin_dashboard.html",
+        total_uploads=total_uploads,
+        recent_login_count=recent_login_count
+    )
+
 
 @app.route("/about")
 def about():
