@@ -7,6 +7,10 @@ from datetime import datetime, timedelta
 from flask import g
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import CSRFProtect
+
+app = Flask(__name__)
+app.secret_key = "secretkey_echoportal_mrbrooks"
+
 csrf = CSRFProtect(app)
 
 
@@ -20,9 +24,6 @@ users = {
         "role": "admin"
     }
 }
-
-app = Flask(__name__)
-app.secret_key = "secretkey_echoportal_mrbrooks"
 
 UPLOAD_FOLDER = os.path.join(app.root_path, "static", "uploads")
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -41,7 +42,6 @@ class LoginTracker:
 
     def is_recent(self, minutes=60):
         return datetime.now() - self.time < timedelta(minutes=minutes)
-
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -155,8 +155,6 @@ def delete_gallery(folder):
 
     return redirect("/admin/gallery")
 
-
-
 @app.route("/admin/promote/<username>")
 def promote_user(username):
     if session.get("role") != "admin":
@@ -166,7 +164,6 @@ def promote_user(username):
         users[username]["role"] = "admin"
 
     return redirect("/admin/users")
-
 
 @app.route("/admin/demote/<username>")
 def demote_user(username):
@@ -184,10 +181,6 @@ def update_activity():
         for entry in recent_login:
             if entry.username == session["user"]:
                 entry.update_activity()
-
-
-
-
 
 @app.route("/dashboard")
 def dashboard():
@@ -252,7 +245,6 @@ def get_recent_logins():
     cutoff = datetime.now() - timedelta(hours=1)
     return [entry for entry in recent_login if entry.is_recent(minutes=60)]
 
-
 @app.route("/admin")
 def admin_dashboard():
     if "user" not in session:
@@ -271,7 +263,6 @@ def admin_dashboard():
         total_uploads=total_uploads,
         recent_login_count=recent_login_count
     )
-
 
 @app.route("/about")
 def about():
@@ -382,8 +373,7 @@ def download_selected():
     pretty_name = event_name.replace("-", " ").title()
 
     return send_file(zip_buffer, mimetype="application/zip", as_attachment=True, download_name=f"{pretty_name} Folder.zip")
-
-                
+          
 @app.route("/logout")
 def logout():
     session.clear()
