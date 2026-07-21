@@ -11,6 +11,7 @@
     </div>
 
     <form method="POST" action="/download-selected">
+        {{ csrf_token() }}
 
         <div class="text-center mb-3">
             <input type="checkbox" id="selectAll" class="form-check-input">

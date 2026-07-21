@@ -6,6 +6,9 @@ from flask import Flask, request, render_template, redirect, url_for, session, s
 from datetime import datetime, timedelta
 from flask import g
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_wtf import CSRFProtect
+csrf = CSRFProtect(app)
+
 
 
 recent_login = []

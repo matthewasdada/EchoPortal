@@ -15,6 +15,7 @@
 
 <h3>Create New Section</h3>
 <form action="/admin/create-gallery" method="POST">
+    {{ csrf_token() }}
     <input type="text" name="new_folder" placeholder="e.g. christmas-service" required>
     <button class="btn btn-primary">Create</button>
 </form>
