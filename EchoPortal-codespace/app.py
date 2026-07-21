@@ -26,6 +26,20 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
+class LoginTracker:
+    def __init__(self, username):
+        self.username = username
+        self.time = datetime.now()
+        self.active = True
+
+    def update_activity(self):
+        self.time = datetime.now()
+        self.active = True
+
+    def is_recent(self, minutes=60):
+        return datetime.now() - self.time < timedelta(minutes=minutes)
+
+
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -45,11 +59,8 @@ def login():
             session["user"] = username
             session["role"] = users[username]["role"]
 
-            recent_login.append({
-                "username": username,
-                "time": datetime.now(),
-                "active": True
-            })
+            recent_login.append(LoginTracker(username))
+
 
 
             return redirect(url_for("home"))
@@ -87,9 +98,11 @@ def admin_users():
     last_login = {}
 
     for entry in recent_login:
-        username = entry["username"]
-        last_login[username] = entry["time"]
-        active_users[username] = (datetime.now() - entry["time"] < timedelta(minutes=5))
+        for entry in recent_login:
+            username = entry.username
+            last_login[username] = entry.time
+            active_users[username] = entry.is_recent(minutes=5)
+
 
     return render_template(
         "user_management.html",
@@ -166,9 +179,9 @@ def demote_user(username):
 def update_activity():
     if "user" in session:
         for entry in recent_login:
-            if entry["username"] == session["user"]:
-                entry["time"] = datetime.now()
-                entry["active"] = True
+            if entry.username == session["user"]:
+                entry.update_activity()
+
 
 
 
@@ -234,7 +247,7 @@ def upload():
 
 def get_recent_logins():
     cutoff = datetime.now() - timedelta(hours=1)
-    return [entry for entry in recent_login if entry["time"] > cutoff]
+    return [entry for entry in recent_login if entry.is_recent(minutes=60)]
 
 
 @app.route("/admin")
@@ -312,7 +325,8 @@ def admin_recent_logins():
         return "Access denied", 403
 
     cutoff = datetime.now() - timedelta(hours=1)
-    active_logins = [entry for entry in recent_login if entry["time"] > cutoff]
+    active_logins = [entry for entry in recent_login if entry.is_recent(minutes=60)]
+
 
     return render_template("admin_recent.html", logins=active_logins)
 
