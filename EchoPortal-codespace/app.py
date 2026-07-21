@@ -5,13 +5,15 @@ import zipfile
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory, send_file
 from datetime import datetime, timedelta
 from flask import g
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 recent_login = []
 
 
 users = {
     "admin": {
-        "password": "1234",
+        "password": generate_password_hash("1234"),
         "role": "admin"
     }
 }
@@ -39,7 +41,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        if username in users and users[username]["password"] == password:
+        if username in users and check_password_hash(users[username]["password"],password):
             session["user"] = username
             session["role"] = users[username]["role"]
 
@@ -65,8 +67,10 @@ def signup():
         if username in users:
             return render_template("signup.html", error="Username already exists.")
         
+        hashed = generate_password_hash(password)
+        
         users[username] = {
-            "password": password,
+            "password": hashed,
             "role": "user"
         }
 
