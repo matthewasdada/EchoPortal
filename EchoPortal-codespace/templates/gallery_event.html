@@ -10,19 +10,65 @@
         </p>
     </div>
 
-    <div class="row g-4">
-        {% for img in images %}
-        <div class="col-md-4">
-            <img src="{{ url_for('static', filename='images/gallery/' ~ event_name ~ '/' ~ img) }}"
-                 class="img-fluid rounded shadow">
+    <form method="POST" action="/download-selected">
+
+        <div class="text-center mb-3">
+            <input type="checkbox" id="selectAll" class="form-check-input">
+            <label for="selectAll" class="form-check-label">
+                Select All Photos
+            </label>
         </div>
-        {% endfor %}
-    </div>
+
+        <div class="row g-4">
+            {% for img in images %}
+
+            <div class="col-md-4">
+
+                <img src="{{ url_for('static', filename='images/gallery/' ~ event_name ~ '/' ~ img) }}"
+                     class="img-fluid rounded shadow mb-2">
+
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           name="selected_images"
+                           value="{{ event_name }}/{{ img }}"
+                           id="img{{ loop.index }}">
+
+                    <label class="form-check-label" for="img{{ loop.index }}">
+                        Select this photo
+                    </label>
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% if 'user' in session %}
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Download Selected Photos</button>
+            </div>
+        {% else %}
+            <div class="text-center mt-4">
+                <a href="/login" class="btn btn-secondary">Login to Download Photos</a>
+            </div>
+        {% endif %}
+
+    </form>
 
     <div class="mt-5 text-center">
         <a href="/gallery" class="btn btn-secondary">Back to Gallery</a>
     </div>
 
 </div>
+
+<script>
+document.getElementById("selectAll").addEventListener("change", function () {
+    const checkboxes = document.querySelectorAll('input[name="selected_images"]');
+    checkboxes.forEach(cb => cb.checked = this.checked);
+});
+</script>
+
 
 {% endblock %}

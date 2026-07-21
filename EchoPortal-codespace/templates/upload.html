@@ -20,6 +20,22 @@
             <label class="form-label fw-semibold mb-2">Choose a file</label>
             <input type="file" name="file" class="form-control mb-4">
 
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Choose Gallery Section</label>
+                <select name="gallery_folder" class="form-select">
+                    {% for folder in folders %}
+                        <option value="{{ folder }}">{{ folder.replace('-', ' ').title() }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Create New Folder</label>
+                <input type="text" name="new_gallery_folder" class="form-control"
+                       placeholder="e.g. christmas-service">
+            </div>
+
+
             <button class="btn btn-primary w-100 mb-3">Upload</button>
 
             <a href="/gallery" class="btn btn-secondary w-100">Back to Gallery</a>

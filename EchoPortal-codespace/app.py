@@ -1,9 +1,10 @@
 import os
-from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory
+import io
+import zipfile
 
+from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory, send_file
 from datetime import datetime, timedelta
 from flask import g
-
 
 recent_login = []
 
@@ -49,7 +50,7 @@ def login():
             })
 
 
-            return redirect(url_for("admin_dashboard"))
+            return redirect(url_for("home"))
         else:  
             return render_template("login.html", error="Invalid username or password")
         
@@ -93,6 +94,48 @@ def admin_users():
         last_login=last_login
     )
 
+@app.route("/admin/gallery")
+def admin_gallery():
+    if session.get("role") != "admin":
+        return "Access denied", 403
+
+    gallery_base = os.path.join(app.root_path, "static", "images", "gallery")
+    folders = [
+        f for f in os.listdir(gallery_base)
+        if os.path.isdir(os.path.join(gallery_base, f))
+    ]
+
+    return render_template("admin_gallery.html", folders=folders)
+
+@app.route("/admin/create-gallery", methods=["POST"])
+def create_gallery():
+    if session.get("role") != "admin":
+        return "Access denied", 403
+
+    new_folder = request.form.get("new_folder").strip().lower()
+    new_folder = new_folder.replace(" ", "-")
+
+    gallery_path = os.path.join(app.root_path, "static", "images", "gallery", new_folder)
+    os.makedirs(gallery_path, exist_ok=True)
+
+    return redirect("/admin/gallery")
+
+@app.route("/admin/delete-gallery/<folder>", methods=["POST"])
+def delete_gallery(folder):
+    if session.get("role") != "admin":
+        return "Access denied", 403
+
+    gallery_path = os.path.join(app.root_path, "static", "images", "gallery", folder)
+
+    if not os.path.exists(gallery_path):
+        return "Folder not found", 404
+
+    import shutil
+    shutil.rmtree(gallery_path)
+
+    return redirect("/admin/gallery")
+
+
 
 @app.route("/admin/promote/<username>")
 def promote_user(username):
@@ -118,7 +161,6 @@ def demote_user(username):
 @app.before_request
 def update_activity():
     if "user" in session:
-        # Update last activity time for the logged-in user
         for entry in recent_login:
             if entry["username"] == session["user"]:
                 entry["time"] = datetime.now()
@@ -151,24 +193,40 @@ def upload():
     if session.get("role") != "admin":
         return "Access denied: Admins only", 403
 
+    gallery_base = os.path.join(app.root_path, "static", "images", "gallery")
+    folders = [f for f in os.listdir(gallery_base) 
+            if os.path.isdir(os.path.join(gallery_base, f))
+    ]
+
     if request.method == "POST":
-        if "file" not in request.files:
-            message = "No file part"
-        else:
-            file = request.files["file"]
+        file = request.files.get("file")
+        gallery_folder = request.form.get("gallery_folder")
+        new_folder = request.form.get("new_gallery_folder", "").strip()
 
-            if file.filename == "":
-                message = "No file was selected"
+        if not file or file.filename == "":
+            message = "No file was selected"
+            return render_template("upload.html", message=message, folders=folders)
 
-            elif not allowed_file(file.filename):
-                message = "Invalid file type (only the following: .jpg, .jpeg, .png)"
-                
-            else:
-                filepath = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
-                file.save(filepath)
-                message = "Upload was successful!"
+        if not allowed_file(file.filename):
+            message = "Invalid file type (only the following: .jpg, .jpeg, .png)"
+            return render_template("upload.html", message=message, folders=folders)
 
-    return render_template("upload.html", message=message)
+        if new_folder:
+            new_folder = new_folder.replace(" ", "-").lower()
+            gallery_folder = new_folder
+
+        if not gallery_folder:
+            message = "Please choose a gallery section or create a new one."
+            return render_template("upload.html", message=message, folders=folders)
+            
+        save_path = os.path.join(app.root_path, "static", "images", "gallery", gallery_folder, file.filename)
+
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+
+        file.save(save_path)
+        message = f"Upload was successful! Saved to '{gallery_folder}'."
+
+    return render_template("upload.html", message=message, folders=folders)
 
 def get_recent_logins():
     cutoff = datetime.now() - timedelta(hours=1)
@@ -237,6 +295,7 @@ def services_events():
 
 @app.route("/intro")
 def intro():
+    session.clear()
     return render_template("intro.html")
 
 @app.route("/")
@@ -255,11 +314,16 @@ def admin_recent_logins():
 
 @app.route("/gallery")
 def gallery():
-    return render_template("gallery.html")
+    gallery_base = os.path.join(app.root_path, "static", "images", "gallery")
+    folders = [f for f in os.listdir(gallery_base)
+            if os.path.isdir(os.path.join(gallery_base, f))
+    ]
+    return render_template("gallery.html", folders=folders)
+
 
 @app.route("/gallery/<event_name>")
 def gallery_event(event_name):
-    base_path = os.path.join("static", "images", "gallery", event_name)
+    base_path = os.path.join(app.root_path, "static", "images", "gallery", event_name)
 
     if not os.path.exists(base_path):
         return "Event not found", 404
@@ -273,12 +337,35 @@ def gallery_event(event_name):
                            event_name=event_name,
                            images=images)
 
+@app.route("/download-selected", methods=["POST"])
+def download_selected():
+    if "user" not in session:
+        return redirect("/login")
 
+    selected = request.form.getlist("selected_images")
 
+    if not selected:
+        return "No images selected."
+    
+    event_name = selected[0].split("/")[0]
 
+    zip_buffer = io.BytesIO()
+
+    with zipfile.ZipFile(zip_buffer, "w") as zip_file:
+        for img_path in selected:
+            full_path = os.path.join(app.root_path, "static", "images", "gallery", img_path)
+            zip_file.write(full_path, arcname=os.path.basename(full_path))
+
+    zip_buffer.seek(0)
+
+    pretty_name = event_name.replace("-", " ").title()
+
+    return send_file(zip_buffer, mimetype="application/zip", as_attachment=True, download_name=f"{pretty_name} Folder.zip")
+
+                
 @app.route("/logout")
 def logout():
-    session.pop("user", None)
+    session.clear()
     return redirect(url_for("login"))
 
 if __name__ == "__main__":
